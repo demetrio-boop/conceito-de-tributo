@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conceito de Tributo – Direito Tributário</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2a4a;
+    --blue: #1a4f8a;
+    --sky: #2d7dd2;
+    --gold: #e8a020;
+    --amber: #f5c842;
+    --cream: #fdf8f0;
+    --sand: #f0e8d8;
+    --text: #1a1a2e;
+    --muted: #5a6070;
+    --white: #ffffff;
+    --green: #2d8a4e;
+    --red: #c0392b;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--navy);
+    color: var(--white);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(232,160,32,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--amber); }
+  .hero p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.75);
+    max-width: 560px;
+    margin-bottom: 28px;
+  }
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 5px 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* ─── PROGRESS NAV ─── */
+  .progress-nav {
+    background: var(--white);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-item {
+    padding: 16px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .nav-item:hover { color: var(--blue); }
+  .nav-item.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+  /* ─── SECTIONS ─── */
+  .section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 40px;
+  }
+  .section + .section {
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .section > p {
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-size: 16px;
+    max-width: 680px;
+  }
+
+  /* ─── LAW BOX ─── */
+  .law-box {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    margin: 32px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .law-box::before {
+    content: '§';
+    position: absolute;
+    right: 24px; top: 12px;
+    font-size: 100px;
+    color: rgba(255,255,255,0.05);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+  .law-box .law-ref {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--amber);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .law-box p {
+    font-size: 17px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .law-box p strong {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  /* ─── ELEMENT CARDS (interactive accordion) ─── */
+  .element-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .element-card {
+    border: 1.5px solid rgba(0,0,0,0.08);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--white);
+    transition: box-shadow 0.2s;
+  }
+  .element-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .element-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .element-number {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .element-title {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+  }
+  .element-icon {
+    font-size: 20px;
+    transition: transform 0.3s;
+  }
+  .element-card.open .element-icon { transform: rotate(180deg); }
+  .element-body {
+    display: none;
+    padding: 0 22px 22px 76px;
+  }
+  .element-card.open .element-body { display: block; }
+  .element-body p {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .element-body .highlight {
+    background: var(--sand);
+    border-left: 3px solid var(--gold);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--text);
+    margin-top: 12px;
+  }
+  .element-body .highlight strong { color: var(--navy); }
+
+  /* ─── FUNCTION CARDS ─── */
+  .func-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .func-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    border-top: 4px solid var(--blue);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .func-card:nth-child(2) { border-top-color: var(--gold); }
+  .func-card:nth-child(3) { border-top-color: var(--green); }
+  .func-card .func-icon { font-size: 30px; margin-bottom: 14px; }
+  .func-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; color: var(--navy); }
+  .func-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .func-card .example {
+    margin-top: 14px;
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .func-card .example strong { display: block; margin-bottom: 3px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+
+  /* ─── CASOS PRÁTICOS ─── */
+  .casos-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .caso-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .caso-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 22px;
+    cursor: pointer;
+  }
+  .caso-emoji { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+  .caso-meta { flex: 1; }
+  .caso-meta h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .caso-meta p { font-size: 14px; color: var(--muted); }
+  .caso-toggle {
+    font-size: 13px;
+    color: var(--sky);
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 6px 12px;
+    border: 1.5px solid var(--sky);
+    border-radius: 20px;
+    margin-top: 4px;
+    align-self: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: none;
+    font-family: inherit;
+  }
+  .caso-toggle:hover { background: var(--sky); color: white; }
+  .caso-answer {
+    display: none;
+    padding: 0 22px 22px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    margin: 0 22px;
+  }
+  .caso-card.open .caso-answer { display: block; }
+  .caso-answer p { font-size: 14px; color: var(--muted); padding-top: 16px; }
+  .verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+  .verdict.sim { background: rgba(45,138,78,0.12); color: var(--green); }
+  .verdict.nao { background: rgba(192,57,43,0.12); color: var(--red); }
+  .verdict.depende { background: rgba(232,160,32,0.15); color: #b07800; }
+
+  /* ─── QUIZ ─── */
+  .quiz-container {
+    margin-top: 24px;
+  }
+  .quiz-q {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .quiz-q .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--sky);
+    margin-bottom: 10px;
+    display: block;
+    text-transform: uppercase;
+  }
+  .quiz-q .q-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .quiz-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    transition: all 0.2s;
+    background: none;
+    text-align: left;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+  .quiz-opt:hover:not(:disabled) {
+    border-color: var(--sky);
+    background: rgba(45,125,210,0.04);
+  }
+  .quiz-opt .opt-letter {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 1.5px solid rgba(0,0,0,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .quiz-opt.correct {
+    border-color: var(--green);
+    background: rgba(45,138,78,0.07);
+  }
+  .quiz-opt.correct .opt-letter { background: var(--green); color: white; border-color: var(--green); }
+  .quiz-opt.wrong {
+    border-color: var(--red);
+    background: rgba(192,57,43,0.07);
+  }
+  .quiz-opt.wrong .opt-letter { background: var(--red); color: white; border-color: var(--red); }
+  .quiz-feedback {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: rgba(45,138,78,0.1); color: #1a6035; }
+  .quiz-feedback.nok { background: rgba(192,57,43,0.1); color: #8b2018; }
+
+  /* ─── SCORE ─── */
+  .score-bar {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-top: 24px;
+    text-align: center;
+    display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .score-bar.show { display: block; }
+  .score-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .score-label { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+  .score-msg { font-size: 16px; font-weight: 500; color: var(--text); }
+  .reset-btn {
+    margin-top: 16px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .reset-btn:hover { background: var(--blue); }
+
+  /* ─── QUICK COMPARE ─── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .compare-table th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .compare-table th:first-child { width: 200px; }
+  .compare-table td {
+    padding: 13px 18px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+  .tag-s { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .tag-sim { background: rgba(45,138,78,0.15); color: var(--green); }
+  .tag-nao { background: rgba(192,57,43,0.12); color: var(--red); }
+
+  /* ─── FOOTER ─── */
+  .page-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 28px 40px;
+    font-size: 13px;
+    margin-top: 40px;
+  }
+  .page-footer strong { color: rgba(255,255,255,0.85); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .hero, .section { padding-left: 20px; padding-right: 20px; }
+    .progress-nav { padding: 0 16px; }
+    .law-box { padding: 24px 22px; }
+    .element-body { padding-left: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-tag">Direito Tributário · Ciências Contábeis</span>
+  <h1>Conceito de<br><span>Tributo</span></h1>
+  <p>Material interativo baseado no art. 3º do CTN. Explore os elementos, veja casos do cotidiano e teste seus conhecimentos.</p>
+  <div class="hero-badges">
+    <span class="badge">📖 Art. 3º CTN</span>
+    <span class="badge">⚖️ Art. 4º CTN</span>
+    <span class="badge">🏛️ Art. 150 CF</span>
+    <span class="badge">Prof. André Demetrio · UFT</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="progress-nav">
+  <a class="nav-item active" href="#definicao">Definição Legal</a>
+  <a class="nav-item" href="#elementos">5 Elementos</a>
+  <a class="nav-item" href="#funcoes">Funções</a>
+  <a class="nav-item" href="#comparacao">Tributo × Multa</a>
+  <a class="nav-item" href="#casos">Casos Práticos</a>
+  <a class="nav-item" href="#quiz">Quiz</a>
+</nav>
+
+<!-- SEÇÃO 1: DEFINIÇÃO -->
+<section class="section" id="definicao">
+  <span class="section-label">01 · Definição Legal</span>
+  <h2>O que diz o Código Tributário Nacional?</h2>
+  <p>A Constituição Federal de 1988 não define tributo diretamente. Quem faz isso é o <strong>art. 3º do CTN</strong> — e essa definição é a base de todo o Direito Tributário brasileiro.</p>
+
+  <div class="law-box">
+    <span class="law-ref">Art. 3º — Código Tributário Nacional (Lei nº 5.172/1966)</span>
+    <p>Tributo é toda <strong>prestação pecuniária compulsória</strong>, em moeda ou cujo valor nela se possa exprimir, que <strong>não constitua sanção de ato ilícito</strong>, <strong>instituída em lei</strong> e cobrada mediante <strong>atividade administrativa plenamente vinculada</strong>.</p>
+  </div>
+
+  <p>Essa definição carrega <strong>cinco elementos essenciais</strong>. Veja cada um deles na seção abaixo — clique para expandir.</p>
+</section>
+
+<!-- SEÇÃO 2: ELEMENTOS -->
+<section class="section" id="elementos">
+  <span class="section-label">02 · Os Cinco Elementos</span>
+  <h2>Dissecando o conceito</h2>
+  <p>Cada palavra do art. 3º tem um propósito jurídico preciso. Clique em cada elemento para entender o que significa e por que importa para o contador.</p>
+
+  <div class="element-grid">
+
+    <div class="element-card" onclick="toggleEl(this)">
+      <div class="element-header">
+        <div class="element-number">01</div>
+        <div class="element-title">Prestação pecuniária compulsória</div>
+        <span class="element-icon">▾</span>
+      </div>
+      <div class="element-body">
+        <p>O tributo é um <strong>pagamento em dinheiro</strong> que o contribuinte é obrigado a fazer — não há escolha. Diferente de uma doação ou de um contrato, aqui não existe voluntariedade.</p>
+        <p>O tributo surge com o <strong>fato gerador</strong> (art. 114 do CTN): basta que o evento ocorra para que a obrigação nasça, independentemente da vontade do sujeito passivo.</p>
+        <div class="highlight">
+          <strong>💡 Na prática contábil:</strong> Quando uma empresa vende uma mercadoria, o ICMS é devido automaticamente — não importa se o empresário quer ou não pagar. O contador precisa registrar e recolher o tributo conforme a lei.
+        </div>
+      </div>
+    </div>
+
+    <div class="element-card" onclick="toggleEl(this)">
+      <div class="element-header">
+        <div class="element-number">02</div>
+        <div class="element-title">Em moeda ou cujo valor nela se possa exprimir</div>
+        <span class="element-icon">▾</span>
+      </div>
+      <div class="element-body">
+        <p>O tributo tem caráter <strong>pecuniário</strong>: não pode ser pago com trabalho (<em>in labore</em>) nem, em regra, com bens. Mas a frase "cujo valor nela se possa exprimir" permite o uso de <strong>indexadores monetários</strong> para atualização dos valores.</p>
+        <p><strong>Exceção importante:</strong> A <em>dação em pagamento</em> de bens imóveis ao Estado foi reconhecida pelo STF (ADin 2.405) como forma válida de extinção do crédito tributário — desde que prevista em lei.</p>
+        <div class="highlight">
+          <strong>💡 Na prática contábil:</strong> Um cliente não pode "pagar" o ICMS prestando serviços à Receita. O pagamento tem que ser em dinheiro, via DARE, DARF ou equivalente.
+        </div>
+      </div>
+    </div>
+
+    <div class="element-card" onclick="toggleEl(this)">
+      <div class="element-header">
+        <div class="element-number">03</div>
+        <div class="element-title">Que não constitua sanção de ato ilícito</div>
+        <span class="element-icon">▾</span>
+      </div>
+      <div class="element-body">
+        <p>Tributo <strong>não é punição</strong>. Ele nasce de um pressuposto lícito (vender mercadoria, receber salário, ser dono de um imóvel). A multa, por outro lado, é uma sanção — nasce justamente de um ato ilícito.</p>
+        <p>Mas atenção ao <strong>princípio <em>pecunia non olet</em></strong> ("dinheiro não tem cheiro"): o art. 118 do CTN diz que, na hora de interpretar o fato gerador, não importa se a origem da renda foi lícita ou ilícita. Quem ganha dinheiro com atividade ilegal continua devendo Imposto de Renda.</p>
+        <div class="highlight">
+          <strong>💡 Exemplo clássico (STF – HC 94240):</strong> Renda proveniente do jogo do bicho gera obrigação de pagar IR. O Direito Tributário não precisa esperar o Direito Penal punir o agente para cobrar o imposto.
+        </div>
+      </div>
+    </div>
+
+    <div class="element-card" onclick="toggleEl(this)">
+      <div class="element-header">
+        <div class="element-number">04</div>
+        <div class="element-title">Instituída em lei</div>
+        <span class="element-icon">▾</span>
+      </div>
+      <div class="element-body">
+        <p>Nenhum tributo pode existir sem uma <strong>lei que o crie</strong>. É o <strong>princípio da legalidade tributária</strong> (art. 150, I, CF). A obrigação é <em>ex lege</em> — nasce da lei, não de um contrato ou de um ato administrativo isolado.</p>
+        <p>Isso protege o contribuinte: o Estado não pode inventar tributos por decreto ou por portaria — precisa passar pelo Poder Legislativo.</p>
+        <div class="highlight">
+          <strong>💡 Na prática:</strong> Quando o contador orienta que determinada operação gera tributo, ele está dizendo que existe uma lei que define aquele fato como gerador de obrigação. Se não há lei, não há tributo.
+        </div>
+      </div>
+    </div>
+
+    <div class="element-card" onclick="toggleEl(this)">
+      <div class="element-header">
+        <div class="element-number">05</div>
+        <div class="element-title">Cobrada mediante atividade administrativa plenamente vinculada</div>
+        <span class="element-icon">▾</span>
+      </div>
+      <div class="element-body">
+        <p>A cobrança do tributo <strong>não é discricionária</strong>: o fiscal não tem margem de escolha para decidir se vai ou não autuar. A lei define exatamente o que deve ser feito — e o agente público é obrigado a seguir.</p>
+        <p>Isso também significa que o tributo está <strong>vinculado ao fato gerador</strong> e ao <strong>destino da arrecadação</strong> previsto em lei, impedindo desvios arbitrários.</p>
+        <div class="highlight">
+          <strong>💡 Na prática:</strong> Se um auditor fiscal detecta que uma empresa não recolheu o ICMS, ele é obrigado a lavrar o auto de infração. Não pode "dar um desconto" por simpatia — a atividade é vinculada.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SEÇÃO 3: FUNÇÕES -->
+<section class="section" id="funcoes">
+  <span class="section-label">03 · Funções do Tributo</span>
+  <h2>Para que serve o tributo?</h2>
+  <p>O tributo não existe apenas para encher os cofres públicos. Ele cumpre ao menos três funções distintas no ordenamento jurídico.</p>
+
+  <div class="func-grid">
+    <div class="func-card">
+      <div class="func-icon">🏛️</div>
+      <h3>Arrecadatória (Fiscal)</h3>
+      <p>Financiar os serviços públicos: saúde, educação, segurança, infraestrutura. É a função primária e mais evidente dos tributos.</p>
+      <div class="example">
+        <strong>Exemplo</strong>
+        IRPF arrecadado pela Receita Federal financia políticas públicas federais.
+      </div>
+    </div>
+    <div class="func-card">
+      <div class="func-icon">📊</div>
+      <h3>Extrafiscal</h3>
+      <p>Regular comportamentos econômicos e sociais — incentivar ou desestimular certas condutas, independentemente da arrecadação.</p>
+      <div class="example">
+        <strong>Exemplo</strong>
+        Imposto Seletivo (LCP 214/2025): alíquota maior sobre cigarros e bebidas alcoólicas para desestimular o consumo.
+      </div>
+    </div>
+    <div class="func-card">
+      <div class="func-icon">🤝</div>
+      <h3>Parafiscal</h3>
+      <p>Financiar atividades específicas de entidades que não são exatamente o Estado, mas exercem funções de interesse público.</p>
+      <div class="example">
+        <strong>Exemplo</strong>
+        Contribuições ao Sistema S (SENAI, SESC, SEBRAE) são cobradas pela Receita e repassadas a essas entidades.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: COMPARAÇÃO -->
+<section class="section" id="comparacao">
+  <span class="section-label">04 · Comparação</span>
+  <h2>Tributo × Multa — qual a diferença?</h2>
+  <p>Essa é uma distinção fundamental para o contador. Ambos são prestações pecuniárias compulsórias, mas têm naturezas jurídicas completamente diferentes.</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Critério</th>
+        <th>Tributo</th>
+        <th>Multa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Origem</strong></td>
+        <td>Ato lícito (fato gerador)</td>
+        <td>Ato ilícito (infração)</td>
+      </tr>
+      <tr>
+        <td><strong>Objetivo</strong></td>
+        <td>Arrecadar / regular condutas</td>
+        <td>Punir / inibir infração</td>
+      </tr>
+      <tr>
+        <td><strong>Previsto no art. 3º CTN?</strong></td>
+        <td><span class="tag-s tag-sim">Sim</span></td>
+        <td><span class="tag-s tag-nao">Não — é sanção</span></td>
+      </tr>
+      <tr>
+        <td><strong>Exemplo na conta de luz</strong></td>
+        <td>ICMS + PIS/COFINS embutidos na tarifa</td>
+        <td>Multa por atraso no pagamento</td>
+      </tr>
+      <tr>
+        <td><strong>Princípio <em>non olet</em> se aplica?</strong></td>
+        <td><span class="tag-s tag-sim">Sim</span></td>
+        <td><span class="tag-s tag-nao">Não</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pode ser cobrado sem ato ilícito?</strong></td>
+        <td><span class="tag-s tag-sim">Sim — é a regra</span></td>
+        <td><span class="tag-s tag-nao">Não — exige infração</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SEÇÃO 5: CASOS PRÁTICOS -->
+<section class="section" id="casos">
+  <span class="section-label">05 · Casos Práticos</span>
+  <h2>É tributo ou não é?</h2>
+  <p>Veja situações do cotidiano e tente identificar se há tributo envolvido. Clique em <strong>"Ver análise"</strong> para conferir o raciocínio jurídico.</p>
+
+  <div class="casos-grid">
+
+    <div class="caso-card">
+      <div class="caso-header">
+        <div class="caso-emoji">🛒</div>
+        <div class="caso-meta">
+          <h3>Compra no supermercado</h3>
+          <p>Você paga R$ 50 por uma cesta básica. O supermercado repassa parte desse valor ao governo como ICMS e PIS/COFINS.</p>
+        </div>
+        <button class="caso-toggle" onclick="toggleCaso(this)">Ver análise</button>
+      </div>
+      <div class="caso-answer">
+        <div class="verdict sim">✅ É tributo</div>
+        <p>O ICMS e o PIS/COFINS são tributos embutidos no preço. Surgem de um fato gerador lícito (circulação de mercadoria e faturamento), são compulsórios, instituídos em lei e cobrados pela administração de forma vinculada. O consumidor paga indiretamente — o contribuinte "de direito" é o supermercado.</p>
+      </div>
+    </div>
+
+    <div class="caso-card">
+      <div class="caso-header">
+        <div class="caso-emoji">⚡</div>
+        <div class="caso-meta">
+          <h3>Multa por atraso na conta de energia</h3>
+          <p>Um cliente pagou a conta de luz com 10 dias de atraso e foi cobrada uma multa de 2% sobre o valor.</p>
+        </div>
+        <button class="caso-toggle" onclick="toggleCaso(this)">Ver análise</button>
+      </div>
+      <div class="caso-answer">
+        <div class="verdict nao">❌ Não é tributo</div>
+        <p>A multa por atraso tem <strong>caráter sancionatório</strong>: nasce de um ato ilícito (descumprimento da obrigação contratual de pagar em dia). O art. 3º do CTN é explícito: tributo não constitui sanção de ato ilícito. Logo, multa ≠ tributo, mesmo que ambos sejam pagamentos compulsórios.</p>
+      </div>
+    </div>
+
+    <div class="caso-card">
+      <div class="caso-header">
+        <div class="caso-emoji">🎰</div>
+        <div class="caso-meta">
+          <h3>Renda do jogo do bicho</h3>
+          <p>Uma pessoa recebe R$ 10.000 de lucro com apostas ilegais. Ela precisa declarar e pagar IR sobre esse valor?</p>
+        </div>
+        <button class="caso-toggle" onclick="toggleCaso(this)">Ver análise</button>
+      </div>
+      <div class="caso-answer">
+        <div class="verdict sim">✅ Deve pagar IR — é tributo</div>
+        <p>Aplica-se o princípio <em>pecunia non olet</em> ("dinheiro não tem cheiro"). O art. 118 do CTN determina que, ao interpretar o fato gerador, não importa se o ato é lícito ou ilícito. Houve <strong>aquisição de renda</strong> — esse é o fato gerador do IR. O STF confirmou esse entendimento no HC 94.240. O Direito Tributário opera de forma autônoma ao Direito Penal.</p>
+      </div>
+    </div>
+
+    <div class="caso-card">
+      <div class="caso-header">
+        <div class="caso-emoji">🚗</div>
+        <div class="caso-meta">
+          <h3>IPVA de carro elétrico isento</h3>
+          <p>Um Estado concede isenção de IPVA para veículos elétricos. O dono do carro não paga nada. Isso significa que o IPVA deixou de ser tributo?</p>
+        </div>
+        <button class="caso-toggle" onclick="toggleCaso(this)">Ver análise</button>
+      </div>
+      <div class="caso-answer">
+        <div class="verdict nao">❌ O IPVA continua sendo tributo</div>
+        <p>A <strong>isenção</strong> é uma dispensa legal do pagamento — ela não muda a natureza jurídica do tributo. O IPVA continua existindo como tributo para quem não tem isenção. Para os carros elétricos isentos, ocorre a exclusão do crédito tributário (art. 175, I, CTN). Esse é também um exemplo da <strong>função extrafiscal</strong>: a isenção serve para estimular o uso de tecnologias sustentáveis.</p>
+      </div>
+    </div>
+
+    <div class="caso-card">
+      <div class="caso-header">
+        <div class="caso-emoji">🏢</div>
+        <div class="caso-meta">
+          <h3>Empresa no Simples Nacional</h3>
+          <p>Uma pequena loja paga mensalmente o DAS (Documento de Arrecadação do Simples). O que está sendo pago ali?</p>
+        </div>
+        <button class="caso-toggle" onclick="toggleCaso(this)">Ver análise</button>
+      </div>
+      <div class="caso-answer">
+        <div class="verdict sim">✅ Vários tributos de uma vez</div>
+        <p>O DAS é um documento único que recolhe <strong>múltiplos tributos simultaneamente</strong>: IRPJ, CSLL, PIS, COFINS, ISS, ICMS e CPP. O Simples Nacional (LC 123/2006) unificou a arrecadação para facilitar a vida das pequenas empresas, mas cada um desses valores continua sendo um tributo distinto — com fato gerador e destino próprios.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SEÇÃO 6: QUIZ -->
+<section class="section" id="quiz">
+  <span class="section-label">06 · Autoavaliação</span>
+  <h2>Teste seus conhecimentos</h2>
+  <p>Responda as questões abaixo. Para cada alternativa escolhida, você verá imediatamente o gabarito comentado.</p>
+
+  <div class="quiz-container" id="quiz-container">
+
+    <div class="quiz-q" data-correct="b">
+      <span class="q-num">Questão 01</span>
+      <div class="q-text">Segundo o art. 3º do CTN, qual das alternativas completa corretamente a definição de tributo? "Tributo é toda prestação pecuniária compulsória, em moeda ou cujo valor nela se possa exprimir, que ___________."</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'a')"><span class="opt-letter">A</span>constitua sanção de ato ilícito, criada por decreto e cobrada discricionariamente.</button>
+        <button class="quiz-opt" onclick="answer(this,'b')"><span class="opt-letter">B</span>não constitua sanção de ato ilícito, instituída em lei e cobrada mediante atividade administrativa plenamente vinculada.</button>
+        <button class="quiz-opt" onclick="answer(this,'c')"><span class="opt-letter">C</span>não constitua sanção de ato ilícito, mas pode ser instituída por portaria ministerial.</button>
+        <button class="quiz-opt" onclick="answer(this,'d')"><span class="opt-letter">D</span>constitua receita originária do Estado, independentemente de lei prévia.</button>
+      </div>
+      <div class="quiz-feedback">
+        <strong>✅ Correto!</strong> O art. 3º do CTN exige quatro requisitos cumulativos: prestação pecuniária compulsória, que não seja sanção de ato ilícito, instituída em lei e cobrada mediante atividade vinculada.
+      </div>
+    </div>
+
+    <div class="quiz-q" data-correct="c">
+      <span class="q-num">Questão 02</span>
+      <div class="q-text">Uma empresa de tráfico de drogas obtém lucro de R$ 500.000. Com base no princípio <em>pecunia non olet</em> e no art. 118 do CTN, qual afirmação é correta?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'a')"><span class="opt-letter">A</span>Não há obrigação tributária, pois a origem da renda é ilícita.</button>
+        <button class="quiz-opt" onclick="answer(this,'b')"><span class="opt-letter">B</span>Só haverá IR após condenação criminal transitada em julgado.</button>
+        <button class="quiz-opt" onclick="answer(this,'c')"><span class="opt-letter">C</span>Há obrigação de pagar IR, pois o fato gerador (aquisição de renda) ocorreu independentemente da ilicitude da atividade.</button>
+        <button class="quiz-opt" onclick="answer(this,'d')"><span class="opt-letter">D</span>A ilicitude transforma o tributo em multa, afastando a obrigação tributária.</button>
+      </div>
+      <div class="quiz-feedback">
+        <strong>✅ Correto!</strong> O CTN (art. 118) manda desconsiderar a validade jurídica dos atos ao interpretar o fato gerador. Houve renda — o tributo é devido. É isso que o STF confirmou no HC 94.240 (caso do jogo do bicho).
+      </div>
+    </div>
+
+    <div class="quiz-q" data-correct="d">
+      <span class="q-num">Questão 03</span>
+      <div class="q-text">Um empresário recebeu um auto de infração cobrando ICMS não recolhido. Ele argumenta que o fiscal poderia ter "dado um desconto" por ser sua primeira infração. Esse argumento é juridicamente válido?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'a')"><span class="opt-letter">A</span>Sim, pois o fiscal tem discricionariedade para avaliar cada caso.</button>
+        <button class="quiz-opt" onclick="answer(this,'b')"><span class="opt-letter">B</span>Sim, desde que o empresário comprove boa-fé.</button>
+        <button class="quiz-opt" onclick="answer(this,'c')"><span class="opt-letter">C</span>Sim, porque a primeira infração permite aplicar o princípio da razoabilidade.</button>
+        <button class="quiz-opt" onclick="answer(this,'d')"><span class="opt-letter">D</span>Não, pois a cobrança do tributo é atividade administrativa plenamente vinculada — o fiscal não tem margem de escolha.</button>
+      </div>
+      <div class="quiz-feedback">
+        <strong>✅ Correto!</strong> A expressão "plenamente vinculada" do art. 3º do CTN significa exatamente isso: o agente público não tem discricionariedade. Verificado o fato gerador, a cobrança é obrigatória.
+      </div>
+    </div>
+
+    <div class="quiz-q" data-correct="b">
+      <span class="q-num">Questão 04</span>
+      <div class="q-text">O Imposto Seletivo (LCP 214/2025) incide com alíquota maior sobre cigarros e bebidas alcoólicas com o objetivo de desestimular o consumo. Qual função do tributo predomina nesse caso?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'a')"><span class="opt-letter">A</span>Arrecadatória (fiscal)</button>
+        <button class="quiz-opt" onclick="answer(this,'b')"><span class="opt-letter">B</span>Extrafiscal</button>
+        <button class="quiz-opt" onclick="answer(this,'c')"><span class="opt-letter">C</span>Parafiscal</button>
+        <button class="quiz-opt" onclick="answer(this,'d')"><span class="opt-letter">D</span>Sancionatória</button>
+      </div>
+      <div class="quiz-feedback">
+        <strong>✅ Correto!</strong> Quando o objetivo principal do tributo é influenciar comportamentos sociais ou econômicos (e não apenas arrecadar), fala-se em função extrafiscal. O IS é o exemplo mais atual e relevante disso no Brasil.
+      </div>
+    </div>
+
+    <div class="quiz-q" data-correct="a">
+      <span class="q-num">Questão 05</span>
+      <div class="q-text">Segundo o art. 4º do CTN, a natureza jurídica específica do tributo é determinada por qual critério?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'a')"><span class="opt-letter">A</span>Pelo fato gerador da obrigação, sendo irrelevante o nome dado ao tributo pela lei.</button>
+        <button class="quiz-opt" onclick="answer(this,'b')"><span class="opt-letter">B</span>Pela denominação usada na lei que o instituiu.</button>
+        <button class="quiz-opt" onclick="answer(this,'c')"><span class="opt-letter">C</span>Pelo destino da arrecadação estabelecido em lei.</button>
+        <button class="quiz-opt" onclick="answer(this,'d')"><span class="opt-letter">D</span>Pelo ente federativo competente para instituí-lo.</button>
+      </div>
+      <div class="quiz-feedback">
+        <strong>✅ Correto!</strong> O art. 4º estabelece que o nome e o destino da arrecadação são irrelevantes para qualificar o tributo. O que importa é o <strong>fato gerador</strong>. Isso impede manobras em que o legislador troca o nome de um imposto para invadir competência de outro ente.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="score-bar" id="score-bar">
+    <div class="score-num" id="score-num">0/5</div>
+    <div class="score-label">questões corretas</div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="reset-btn" onclick="resetQuiz()">Refazer quiz</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <strong>Conceito de Tributo</strong> · Direito Tributário · Ciências Contábeis<br>
+  Material baseado em Baleeiro (2015), Costa (2019) e Fabretti &amp; Fabretti (2013) · Prof. André Demetrio · UFT
+</div>
+
+<script>
+  // ─── Accordion elements
+  function toggleEl(card) {
+    card.classList.toggle('open');
+  }
+
+  // ─── Casos práticos
+  function toggleCaso(btn) {
+    const card = btn.closest('.caso-card');
+    const isOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    btn.textContent = isOpen ? 'Ver análise' : 'Fechar análise';
+  }
+
+  // ─── Quiz
+  let answered = 0;
+  let correct = 0;
+  const total = 5;
+
+  function answer(btn, chosen) {
+    const qEl = btn.closest('.quiz-q');
+    if (qEl.dataset.done) return;
+    qEl.dataset.done = '1';
+
+    const correctAns = qEl.dataset.correct;
+    const opts = qEl.querySelectorAll('.quiz-opt');
+    const feedback = qEl.querySelector('.quiz-feedback');
+
+    opts.forEach(o => o.disabled = true);
+
+    if (chosen === correctAns) {
+      btn.classList.add('correct');
+      feedback.classList.add('ok');
+      correct++;
+    } else {
+      btn.classList.add('wrong');
+      feedback.classList.add('nok');
+      // Mark correct
+      opts.forEach(o => {
+        if (o === btn) return;
+        const letter = o.querySelector('.opt-letter').textContent.toLowerCase();
+        if (letter === correctAns) o.classList.add('correct');
+      });
+      feedback.innerHTML = feedback.innerHTML.replace('✅', '❌');
+    }
+
+    feedback.classList.add('show');
+    answered++;
+
+    if (answered === total) showScore();
+  }
+
+  function showScore() {
+    const bar = document.getElementById('score-bar');
+    document.getElementById('score-num').textContent = correct + '/' + total;
+    const msgs = ['Continue estudando — reveja os conceitos fundamentais.', 'Bom começo! Revise os elementos do art. 3º do CTN.', 'Você está no caminho certo! Mais um pouco de prática.', 'Muito bem! Você domina o conceito de tributo.', 'Excelente! Domínio completo do tema — ótima base para a carreira contábil!'];
+    document.getElementById('score-msg').textContent = msgs[correct] || msgs[4];
+    bar.classList.add('show');
+    bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function resetQuiz() {
+    answered = 0; correct = 0;
+    const qEls = document.querySelectorAll('.quiz-q');
+    qEls.forEach(q => {
+      delete q.dataset.done;
+      q.querySelectorAll('.quiz-opt').forEach(o => {
+        o.disabled = false;
+        o.classList.remove('correct', 'wrong');
+      });
+      const fb = q.querySelector('.quiz-feedback');
+      fb.classList.remove('show', 'ok', 'nok');
+      // restore correct emoji
+      if (fb.innerHTML.includes('❌')) fb.innerHTML = fb.innerHTML.replace('❌', '✅');
+    });
+    document.getElementById('score-bar').classList.remove('show');
+  }
+
+  // ─── Sticky nav highlight
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navItems = document.querySelectorAll('.nav-item');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+    navItems.forEach(n => {
+      n.classList.toggle('active', n.getAttribute('href') === '#' + cur);
+    });
+  });
+</script>
+</body>
+</html>
